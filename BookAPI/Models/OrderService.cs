@@ -7,7 +7,7 @@ using System.Configuration;
 
 namespace BookAPI.Models
 {
-    public class OrderService
+    public class OrderService : IOrder
     {
         SqlConnection conn;
         SqlCommand comm;
@@ -52,6 +52,25 @@ namespace BookAPI.Models
             }
             conn.Close();
             return items;
+        }
+
+        public List<Order> GetOrdersByUser(int userId)
+        {
+            List<Order> orders = new List<Order>();
+            comm.CommandText = "select * from Orders where UserId = " + userId;
+            conn.Open();
+            SqlDataReader reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                orders.Add(new Order(
+                    reader.GetInt32(0),
+                    reader.GetDateTime(1),
+                    reader.GetDecimal(2),
+                    reader.GetInt32(3),
+                    reader.GetInt32(4)));
+            }
+            conn.Close();
+            return orders;
         }
     }
 }

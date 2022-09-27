@@ -69,6 +69,16 @@ namespace BookAPI.Controllers
             return Ok(data);
         }
 
+        [Route("api/book/getbyfeatured")]
+        [HttpGet]
+        public IHttpActionResult GetByFeatured()
+        {
+            var data = repository.GetFeaturedBooks();
+            if (data == null)
+                return NotFound();
+            return Ok(data);
+        }
+
         [HttpPost]
         public IHttpActionResult Post(Book book)
         {

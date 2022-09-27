@@ -85,21 +85,40 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CouponController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\WishlistController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\AddressService.cs" />
+    <Compile Include="Models\AuthService.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookService.cs" />
+    <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\CartService.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CategoryService.cs" />
+    <Compile Include="Models\Coupon.cs" />
+    <Compile Include="Models\CouponService.cs" />
+    <Compile Include="Models\IAddress.cs" />
+    <Compile Include="Models\IAuth.cs" />
     <Compile Include="Models\IBook.cs" />
+    <Compile Include="Models\ICart.cs" />
     <Compile Include="Models\ICategory.cs" />
+    <Compile Include="Models\ICoupon.cs" />
+    <Compile Include="Models\IOrder.cs" />
+    <Compile Include="Models\IWishlist.cs" />
     <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\OrderItems.cs" />
     <Compile Include="Models\OrderService.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\WishlistService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

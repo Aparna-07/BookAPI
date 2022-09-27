@@ -14,6 +14,7 @@ namespace BookAPI.Models
         Book GetBookByName(string name);
         Book GetBookByISBN(long isbn);
         List<Book> GetBookByAuthor(string author);
+        List<Book> GetFeaturedBooks();
 
         Book InsertBook(Book book);
         Book UpdateBook(Book book);

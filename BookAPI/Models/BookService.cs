@@ -20,37 +20,37 @@ namespace BookAPI.Models
         }
         public List<Book> GetAllBooks()
         {
-            string query = "select * from Book where Status = 'true' order by Position;";
+            string query = "select * from Book where Status = 'true' order by Year desc";
             return GetBooksByVariable(query);
         }
 
         public List<Book> GetBookByAuthor(string author)
         {
-            string query = "select * from Book where Status = 'true' and Author = '"+author+"'";
+            string query = "select * from Book where Status = 'true' and Author = '"+author+ "' order by Year desc";
             return GetBooksByVariable(query);
         }
 
         public List<Book> GetBookByCatId(int catId)
         {
-            string query = "select * from Book where Status = 'true' and CategoryId = " + catId;
+            string query = "select * from Book where Status = 'true' and CategoryId = " + catId + " order by Year desc";
             return GetBooksByVariable(query);
         }
 
         public List<Book> GetBookByCatName(string catName)
         {
-            string query = "select * from Book where Status = 'true' and  CategoryId = (select CategoryId from Category where CategoryName = '"+catName+"') ";
+            string query = "select * from Book where Status = 'true' and  CategoryId = (select CategoryId from Category where CategoryName = '"+catName+ "') order by Year desc";
             return GetBooksByVariable(query);
         }
 
         public Book GetBookByISBN(long isbn)
         {
-            string query = "select * from Book where Status = 'true' and ISBN = " + isbn;
+            string query = "select * from Book where Status = 'true' and ISBN = " + isbn + " order by Year desc";
             return GetBookByVariable(query);
         }
 
         public Book GetBookByName(string name)
         {
-            string query = "select * from Book where Status = 'true' and Title = '" + name + "'";
+            string query = "select * from Book where Status = 'true' and Title = '" + name + "' order by Year desc";
             return GetBookByVariable(query);
         }
 
@@ -81,6 +81,12 @@ namespace BookAPI.Models
             conn.Open();
             comm.ExecuteNonQuery();
             conn.Close();
+        }
+
+        public List<Book> GetFeaturedBooks()
+        {
+            string query = "select top 4 * from Book where Status = 'true' order by Position";
+            return GetBooksByVariable(query);
         }
 
         private Book GetBookByVariable(string query)

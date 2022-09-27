@@ -21,10 +21,20 @@ namespace BookAPI.Controllers
             return Ok(data);
         }
 
+        [Route("api/order/getitems")]
         [HttpGet]
-        public IHttpActionResult Get(int orderId)
+        public IHttpActionResult GetItems(int orderId)
         {
             var data = repo.GetOrderItems(orderId);
+            if (data == null)
+                return NotFound();
+            return Ok(data);
+        }
+
+        [HttpGet]
+        public IHttpActionResult Get(int userId)
+        {
+            var data = repo.GetOrdersByUser(userId);
             if (data == null)
                 return NotFound();
             return Ok(data);

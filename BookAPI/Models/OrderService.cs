@@ -22,55 +22,45 @@ namespace BookAPI.Models
         public List<Order> GetAllOrders()
         {
             List<Order> orders = new List<Order>();
-            comm.CommandText = "select * from Orders";
+            comm.CommandText = "select OrderDate, UserName, Title, Author, Qty from Orders O, OrderItems I, Users U, Book B where O.OrderId = I.OrderId and O.UserId = U.UserId and I.BookId = B.BookId";
             conn.Open();
             SqlDataReader reader = comm.ExecuteReader();
             while (reader.Read())
             {
                 orders.Add(new Order(
-                    reader.GetInt32(0),
-                    reader.GetDateTime(1),
-                    reader.GetDecimal(2),
-                    reader.GetInt32(3),
+                    reader.GetDateTime(0),
+                    reader.GetString(1),
+                    reader.GetString(2),
+                    reader.GetString(3),
                     reader.GetInt32(4)));
             }
             conn.Close();
             return orders;
-        }
-        public List<OrderItems> GetOrderItems(int orderId)
-        {
-            List<OrderItems> items = new List<OrderItems>();
-            comm.CommandText = "select * from OrderItems where OrderId = " + orderId;
-            conn.Open();
-            SqlDataReader reader = comm.ExecuteReader();
-            while (reader.Read())
-            {
-                items.Add(new OrderItems(
-                    reader.GetInt32(1),
-                    reader.GetInt32(2),
-                    reader.GetInt32(3)));
-            }
-            conn.Close();
-            return items;
         }
 
-        public List<Order> GetOrdersByUser(int userId)
+        public int InsertOrder(Orders orders)
         {
-            List<Order> orders = new List<Order>();
-            comm.CommandText = "select * from Orders where UserId = " + userId;
+            comm.CommandText = "insert into Orders(OrderDate, Amount, UserId) values('"+orders.OrderDate+"', "+orders.Amount+", "+orders.UserId+")";
             conn.Open();
+            comm.ExecuteNonQuery();
+            comm.CommandText = "select OrderId from Orders where UserId = "+orders.UserId+" order by OrderDate desc";
             SqlDataReader reader = comm.ExecuteReader();
             while (reader.Read())
             {
-                orders.Add(new Order(
-                    reader.GetInt32(0),
-                    reader.GetDateTime(1),
-                    reader.GetDecimal(2),
-                    reader.GetInt32(3),
-                    reader.GetInt32(4)));
+                int orderId = reader.GetInt32(0);
+                conn.Close();
+                return orderId;
             }
+            return 0;
+        }
+
+        public OrderItem InsertItem(OrderItem item)
+        {
+            comm.CommandText = "insert into OrderItems(OrderId, BookId, Qty) values(" + item.OrderId + ", " + item.BookId + ", " + item.Qty + ")";
+            conn.Open();
+            comm.ExecuteNonQuery();
             conn.Close();
-            return orders;
+            return item;
         }
     }
 }

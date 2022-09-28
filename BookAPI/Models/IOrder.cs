@@ -9,7 +9,7 @@ namespace BookAPI.Models
     internal interface IOrder
     {
         List<Order> GetAllOrders();
-        List<OrderItems> GetOrderItems(int orderId);
-        List<Order> GetOrdersByUser(int userId);
+        int InsertOrder(Orders orders);
+        OrderItem InsertItem(OrderItem item);
     }
 }

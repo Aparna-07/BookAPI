@@ -53,6 +53,14 @@ namespace BookAPI.Controllers
             cartRepo.DeleteCart(cart);
             return Ok();
         }
-        
+
+        [Route("api/cart/deletecart")]
+        [HttpDelete]
+        public IHttpActionResult DeleteFull(int userId)
+        {
+            cartRepo.DeleteFullCart(userId);
+            return Ok();
+        }
+
     }
 }

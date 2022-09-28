@@ -12,6 +12,7 @@ namespace BookAPI.Models
         Cart InsertCart(Cart cart);
         Cart UpdateCart(Cart cart);
         void DeleteCart(Cart cart);
+        void DeleteFullCart(int userId);
         decimal GetTotal(int userId);
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using BookAPI.Models;
 
 namespace BookAPI.Controllers
 {
@@ -21,22 +22,20 @@ namespace BookAPI.Controllers
             return Ok(data);
         }
 
-        [Route("api/order/getitems")]
-        [HttpGet]
-        public IHttpActionResult GetItems(int orderId)
+        [HttpPost]
+        public IHttpActionResult Post(Orders orders)
         {
-            var data = repo.GetOrderItems(orderId);
-            if (data == null)
+            var data = repo.InsertOrder(orders);
+            if (data == 0)
                 return NotFound();
             return Ok(data);
         }
 
-        [HttpGet]
-        public IHttpActionResult Get(int userId)
+        [Route("api/order/item")]
+        [HttpPost]
+        public IHttpActionResult PostItem(OrderItem item)
         {
-            var data = repo.GetOrdersByUser(userId);
-            if (data == null)
-                return NotFound();
+            var data = repo.InsertItem(item);
             return Ok(data);
         }
     }

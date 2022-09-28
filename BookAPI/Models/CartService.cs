@@ -63,6 +63,14 @@ namespace BookAPI.Models
             conn.Close();
         }
 
+        public void DeleteFullCart(int userId)
+        {
+            comm.CommandText = "delete from Cart where UserId = " + userId;
+            conn.Open();
+            comm.ExecuteNonQuery();
+            conn.Close();
+        }
+
         public decimal GetTotal(int userId)
         {
             decimal total = 0;

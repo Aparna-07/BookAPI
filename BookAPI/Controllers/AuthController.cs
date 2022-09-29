@@ -19,7 +19,7 @@ namespace BookAPI.Controllers
             return Ok(data);
         }
         [HttpGet]
-        public IHttpActionResult Get(Credentials credentials)
+        public IHttpActionResult Get([FromBody]Credentials credentials)
         {
             var data = repository.Login(credentials);
             if (data == null)

@@ -22,16 +22,12 @@ namespace BookAPI.Models
             comm.CommandText = "select * from Users where Email = '"+credentials.Email+ "' and Password = '" + credentials.Password + "'";
             conn.Open();
             SqlDataReader reader = comm.ExecuteReader();
-            conn.Close();
-            if(reader.HasRows)
-            {
-                while (reader.Read())
+            while (reader.Read())
                 {
-                    User user = new User(reader.GetString(0), reader.GetString(1), reader.GetInt32(2), reader.GetString(3));
+                    User user = new User(reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetString(4));
                     conn.Close();
                     return user;
                 }
-            }
             return null;
         }
 

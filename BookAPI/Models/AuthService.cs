@@ -40,5 +40,18 @@ namespace BookAPI.Models
             conn.Close();
             return user;
         }
+
+        public bool CheckAdmin(string email)
+        {
+            comm.CommandText = "select * from Users where IsAdmin = 1";
+            conn.Open();
+            SqlDataReader reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                if (email == reader.GetString(2))
+                    return true;
+            }
+            return false;
+        }
     }
 }

@@ -5,9 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BookAPI.Models;
+using System.Web.Http.Cors;
 
 namespace BookAPI.Controllers
 {
+    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class CategoryController : ApiController
     {
         ICategory repository = new CategoryService();
@@ -28,6 +30,8 @@ namespace BookAPI.Controllers
                 return NotFound();
             return Ok(data);
         }
+
+        [Route("api/category/getbyname")]
         [HttpGet]
         public IHttpActionResult Get(string name)
         {

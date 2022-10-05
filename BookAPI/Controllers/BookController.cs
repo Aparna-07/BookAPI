@@ -5,9 +5,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace BookAPI.Controllers
 {
+    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class BookController : ApiController
     {
         IBook repository = new BookService();
@@ -20,6 +22,17 @@ namespace BookAPI.Controllers
                 return NotFound();
             return Ok(data);
         }
+
+        [Route("api/book/getbyid")]
+        [HttpGet]
+        public IHttpActionResult GetById(int id)
+        {
+            var data = repository.GetBookById(id);
+            if (data == null)
+                return NotFound();
+            return Ok(data);
+        }
+
         [Route("api/book/getbytitle")]
         [HttpGet]
         public IHttpActionResult GetByTitle(string name)
@@ -29,6 +42,7 @@ namespace BookAPI.Controllers
                 return NotFound();
             return Ok(data);
         }
+
         [Route("api/book/getbycatid")]
         [HttpGet]
         public IHttpActionResult GetByCatId(int id)

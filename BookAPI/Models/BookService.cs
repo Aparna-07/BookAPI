@@ -24,6 +24,11 @@ namespace BookAPI.Models
             return GetBooksByVariable(query);
         }
 
+        public Book GetBookById(int id)
+        {
+            string query = "select * from Book where Status = 'true' and BookId = " + id + " order by Year desc";
+            return GetBookByVariable(query);
+        }
         public List<Book> GetBookByAuthor(string author)
         {
             string query = "select * from Book where Status = 'true' and Author = '"+author+ "' order by Year desc";

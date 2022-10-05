@@ -7,34 +7,20 @@ namespace BookAPI.Models
 {
     public class Order
     {
-        public DateTime OrderDate { get; set; }
-        public string UserName { get; set; }
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public int Qty { get; set; }
-
-        public Order(DateTime orderDate, string userName, string title, string author, int qty)
-        {
-            OrderDate = orderDate;
-            UserName = userName;
-            Title = title;
-            Author = author;
-            Qty = qty;
-        }
-    }
-
-    public class Orders
-    {
+        public int OrderId { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal Amount { get; set; }
         public int UserId { get; set; }
 
-        public Orders(DateTime orderDate, decimal amount, int userId)
+        public Order(int orderId, DateTime orderDate, decimal amount, int userId)
         {
+            OrderId = orderId;
             OrderDate = orderDate;
             Amount = amount;
             UserId = userId;
         }
+
+        public Order() { }
     }
 
     public class OrderItem

@@ -38,8 +38,23 @@ namespace BookAPI.Models
 
         public Cart InsertCart(Cart cart)
         {
-            comm.CommandText = "insert into Cart(UserId, BookId, Qty) values(" + cart.UserId + ", " + cart.BookId + ", " + cart.Qty + ") ";
+            comm.CommandText= "select * from Cart where UserId = " + cart.UserId + " and BookId = " + cart.BookId;
             conn.Open();
+            SqlDataReader reader = comm.ExecuteReader();
+            if (reader.HasRows)
+            {
+                int qty;
+                while (reader.Read())
+                {
+                    qty = reader.GetInt32(3);
+                    cart.Qty += qty;
+                    conn.Close();
+                    return UpdateCart(cart);
+                }
+            }
+            conn.Close();
+            conn.Open();
+            comm.CommandText = "insert into Cart(UserId, BookId, Qty) values(" + cart.UserId + ", " + cart.BookId + ", " + cart.Qty + ") ";
             comm.ExecuteNonQuery();
             conn.Close();
             return cart;
@@ -76,7 +91,9 @@ namespace BookAPI.Models
             decimal total = 0;
             comm.CommandText = "select SUM(Qty*Price) from Cart C, Book B where C.BookId = B.BookId and UserId = " + userId;
             conn.Open();
-            total = (decimal)comm.ExecuteScalar();
+            object result = comm.ExecuteScalar();
+            if (typeof(decimal).IsAssignableFrom(result.GetType()))
+                total = Convert.ToDecimal(result);
             conn.Close();
             return total;
         }

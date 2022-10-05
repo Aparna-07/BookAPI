@@ -5,9 +5,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace BookAPI.Controllers
 {
+    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class CartController : ApiController
     {
         ICart cartRepo = new CartService();
@@ -26,8 +28,6 @@ namespace BookAPI.Controllers
         public IHttpActionResult GetCartTotal(int userId)
         {
             var data = cartRepo.GetTotal(userId);
-            if (data == 0)
-                return NotFound();
             return Ok(data);
         }
 

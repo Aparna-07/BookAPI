@@ -18,25 +18,51 @@ namespace BookAPI.Models
             comm.Connection = conn;
         }
 
-        public Coupon GetCoupon(decimal total)
+
+        public List<Coupon> GetAllCoupon()
         {
-            Coupon coupon;
-            comm.CommandText = "select top 1 * from Coupon where MinimumSpend <= " + total + " and Expiry > GETDATE() order by Discount desc ";
+            List<Coupon> coupons = new List<Coupon>();
+            comm.CommandText = "select * from Coupon";
             conn.Open();
             SqlDataReader reader = comm.ExecuteReader();
-            while (reader.Read())
+            if (reader.HasRows)
             {
-                coupon = new Coupon(
-                    reader.GetString(1),
-                    reader.GetString(2),
-                    reader.GetInt32(3),
-                    reader.GetInt32(4),
-                    reader.GetDateTime(5)
-                    );
-                conn.Close();
-                return coupon;
+                while (reader.Read())
+                {
+                    coupons.Add(new Coupon(
+                        reader.GetString(1),
+                        reader.GetString(2),
+                        reader.GetInt32(3),
+                        reader.GetInt32(4),
+                        reader.GetDateTime(5)
+                        ));
+                }
             }
-            return null;
+            conn.Close();
+            return coupons;
+        }
+
+        public List<Coupon> GetCoupon(decimal total)
+        {
+            List<Coupon> coupons = new List<Coupon>();
+            comm.CommandText = "select * from Coupon where MinimumSpend <= " + total + " and Expiry > GETDATE() order by Discount desc ";
+            conn.Open();
+            SqlDataReader reader = comm.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    coupons.Add(new Coupon(
+                        reader.GetString(1),
+                        reader.GetString(2),
+                        reader.GetInt32(3),
+                        reader.GetInt32(4),
+                        reader.GetDateTime(5)
+                        ));
+                }
+            }
+            conn.Close();
+            return coupons;
         }
 
         public Coupon InsertCoupon(Coupon coupon)
@@ -64,6 +90,27 @@ namespace BookAPI.Models
             conn.Open();
             comm.ExecuteNonQuery();
             conn.Close();
+        }
+
+        public Coupon GetCouponByCode(string code)
+        {
+            Coupon coupon;
+            comm.CommandText = "select * from Coupon where Code = '"+code+"'";
+            conn.Open();
+            SqlDataReader reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                coupon = new Coupon(
+                    reader.GetString(1),
+                    reader.GetString(2),
+                    reader.GetInt32(3),
+                    reader.GetInt32(4),
+                    reader.GetDateTime(5)
+                    );
+                conn.Close();
+                return coupon;
+            }
+            return null;
         }
     }
 }

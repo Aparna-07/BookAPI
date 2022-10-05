@@ -42,8 +42,17 @@ namespace BookAPI.Models
 
         public Wishlist InsertWishlist(Wishlist wishlist)
         {
-            comm.CommandText = "insert into Wishlist(UserId, BookId) values(" + wishlist.UserId + ", " + wishlist.BookId + ") ";
+            comm.CommandText = "select * from Wishlist where UserId = " + wishlist.UserId + " and BookId = " + wishlist.BookId;
             conn.Open();
+            SqlDataReader reader = comm.ExecuteReader();
+            if (reader.HasRows)
+            {
+                conn.Close();
+                return wishlist;
+            }
+            conn.Close();
+            conn.Open();
+            comm.CommandText = "insert into Wishlist(UserId, BookId) values(" + wishlist.UserId + ", " + wishlist.BookId + ") ";
             comm.ExecuteNonQuery();
             conn.Close();
             return wishlist;

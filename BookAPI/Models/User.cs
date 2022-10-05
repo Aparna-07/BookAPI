@@ -7,6 +7,7 @@ namespace BookAPI.Models
 {
     public class User
     {
+        public int UserId { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
         public int Mobile { get; set; }
@@ -16,8 +17,9 @@ namespace BookAPI.Models
         {
 
         }
-        public User(string name, string email, int mobile, string pass)
+        public User(int userId, string name, string email, int mobile, string pass)
         {
+            UserId = userId;
             UserName = name;
             Email = email;
             Mobile = mobile;

@@ -24,7 +24,7 @@ namespace BookAPI.Models
             SqlDataReader reader = comm.ExecuteReader();
             while (reader.Read())
                 {
-                    User user = new User(reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetString(4));
+                    User user = new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetString(4));
                     conn.Close();
                     return user;
                 }

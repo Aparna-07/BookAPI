@@ -23,11 +23,12 @@ namespace BookAPI.Models
             conn.Open();
             SqlDataReader reader = comm.ExecuteReader();
             while (reader.Read())
-                {
-                    User user = new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetString(4));
-                    conn.Close();
-                    return user;
-                }
+            {
+                User user = new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetString(4), reader.GetBoolean(5), reader.GetBoolean(6));
+                conn.Close();
+                return user;
+            }
+            conn.Close();
             return null;
         }
 
@@ -41,17 +42,44 @@ namespace BookAPI.Models
             return user;
         }
 
-        public bool CheckAdmin(string email)
+        public List<User> GetUsers()
         {
-            comm.CommandText = "select * from Users where IsAdmin = 1";
+            List<User> users = new List<User>();
+            comm.CommandText = "select * from Users where IsAdmin=0";
             conn.Open();
             SqlDataReader reader = comm.ExecuteReader();
-            while (reader.Read())
+            if (reader.HasRows)
             {
-                if (email == reader.GetString(2))
-                    return true;
+                while (reader.Read())
+                {
+                    users.Add(new User(
+                        reader.GetInt32(0), 
+                        reader.GetString(1), 
+                        reader.GetString(2), 
+                        reader.GetInt32(3), 
+                        reader.GetString(4), 
+                        reader.GetBoolean(5), 
+                        reader.GetBoolean(6)));
+                }
             }
-            return false;
+            conn.Close();
+            return users;
+        }
+
+        public void ActivateUser(int userId)
+        {
+            comm.CommandText = "update Users set IsActive = 1 where UserId = " + userId;
+            conn.Open();
+            comm.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void DeactivateUser(int userId)
+        {
+            comm.CommandText = "update Users set IsActive = 0 where UserId = " + userId;
+            conn.Open();
+            comm.ExecuteNonQuery();
+            conn.Close();
         }
     }
 }

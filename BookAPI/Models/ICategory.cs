@@ -10,7 +10,7 @@ namespace BookAPI.Models
     {
         List<Category> GetAllCategories();
         Category GetCategoryById(int id);
-        Category GetCategoryByName(string name);
+        List<Category> GetCategoryByName(string name);
 
         Category InsertCategory(Category cat);
         Category UpdateCategory(Category cat);

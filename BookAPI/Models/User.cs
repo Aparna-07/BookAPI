@@ -12,18 +12,24 @@ namespace BookAPI.Models
         public string Email { get; set; }
         public int Mobile { get; set; }
         public string Password { get; set; }
+        public bool IsActive { get; set; }
+
+        public bool IsAdmin { get; set; }
+
 
         public User()
         {
 
         }
-        public User(int userId, string name, string email, int mobile, string pass)
+        public User(int userId, string name, string email, int mobile, string pass, bool isActive, bool isAdmin)
         {
             UserId = userId;
             UserName = name;
             Email = email;
             Mobile = mobile;
             Password = pass;
+            IsActive = isActive;
+            IsAdmin = isAdmin;
         }
     }
 

@@ -93,25 +93,25 @@ namespace BookAPI.Models
             return cat;
         }
 
-        public Category GetCategoryByName(string name)
+        public List<Category> GetCategoryByName(string name)
         {
-            Category cat = null; ;
-            comm.CommandText = "select * from Category where Status = 'true' and  CategoryName = '" + name+"'";
+            List<Category> categories = new List<Category>(); ;
+            comm.CommandText = "select * from Category where Status = 'true' and lower(CategoryName) like lower('%"+name+"%')";
             conn.Open();
             SqlDataReader reader = comm.ExecuteReader();
             while (reader.Read())
             {
-                cat = new Category(
+                categories.Add(new Category(
                     reader.GetInt32(0),
                     reader.GetString(1),
                     reader.GetString(2),
                     reader.GetString(3),
                     reader.GetString(4),
                     reader.GetInt32(5),
-                    reader.GetDateTime(6));
+                    reader.GetDateTime(6)));
             }
             conn.Close();
-            return cat;
+            return categories;
         }
     }
 }

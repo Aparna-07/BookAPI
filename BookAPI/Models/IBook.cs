@@ -11,7 +11,7 @@ namespace BookAPI.Models
         List<Book> GetAllBooks();
         List<Book> GetBookByCatId(int catId);
         List<Book> GetBookByCatName(string catName);
-        Book GetBookByName(string name);
+        List<Book> GetBookByName(string name);
         Book GetBookById(int id);
         Book GetBookByISBN(long isbn);
         List<Book> GetBookByAuthor(string author);

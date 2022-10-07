@@ -31,7 +31,7 @@ namespace BookAPI.Models
         }
         public List<Book> GetBookByAuthor(string author)
         {
-            string query = "select * from Book where Status = 'true' and Author = '"+author+ "' order by Year desc";
+            string query = "select * from Book where Status = 'true' and  lower(Author) like lower('%"+author+"%') order by Year desc";
             return GetBooksByVariable(query);
         }
 
@@ -43,7 +43,7 @@ namespace BookAPI.Models
 
         public List<Book> GetBookByCatName(string catName)
         {
-            string query = "select * from Book where Status = 'true' and  CategoryId = (select CategoryId from Category where CategoryName = '"+catName+ "') order by Year desc";
+            string query = "select * from Book where Status = 'true' and  CategoryId IN (select CategoryId from Category where lower(CategoryName) like lower('%" + catName + "%')) order by Year desc";
             return GetBooksByVariable(query);
         }
 
@@ -53,10 +53,10 @@ namespace BookAPI.Models
             return GetBookByVariable(query);
         }
 
-        public Book GetBookByName(string name)
+        public List<Book> GetBookByName(string name)
         {
-            string query = "select * from Book where Status = 'true' and Title = '" + name + "' order by Year desc";
-            return GetBookByVariable(query);
+            string query = "select * from Book where Status = 'true' and lower(Title) like lower('%" + name + "%') order by Year desc";
+            return GetBooksByVariable(query);
         }
 
         public Book InsertBook(Book book)

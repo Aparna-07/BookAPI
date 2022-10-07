@@ -36,8 +36,6 @@ namespace BookAPI.Controllers
         public IHttpActionResult Get(string name)
         {
             var data = repository.GetCategoryByName(name);
-            if (data == null)
-                return NotFound();
             return Ok(data);
         }
         [HttpPost]

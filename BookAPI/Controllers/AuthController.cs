@@ -32,10 +32,27 @@ namespace BookAPI.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult Get(string email)
+        public IHttpActionResult Get()
         {
-            var data = repository.CheckAdmin(email);
+            var data = repository.GetUsers();
             return Ok(data);
+        }
+
+        [Route("api/auth/activate")]
+        [HttpGet]
+        public IHttpActionResult GetActivate(int userId)
+        {
+            repository.ActivateUser(userId);
+            return Ok();
+        }
+
+
+        [Route("api/auth/deactivate")]
+        [HttpGet]
+        public IHttpActionResult GetDeactivate(int userId)
+        {
+            repository.DeactivateUser(userId);
+            return Ok();
         }
     }
 }

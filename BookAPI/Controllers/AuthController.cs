@@ -30,7 +30,13 @@ namespace BookAPI.Controllers
                 return NotFound();
             return Ok(data);
         }
-
+        [Route("api/auth/checkduplicate")]
+        [HttpGet]
+        public IHttpActionResult GetDuplicateEmail(string email)
+        {
+            var data = repository.CheckDuplicateEmail(email);
+            return Ok(data);
+        }
         [HttpGet]
         public IHttpActionResult Get()
         {
@@ -53,6 +59,30 @@ namespace BookAPI.Controllers
         {
             repository.DeactivateUser(userId);
             return Ok();
+        }
+
+        [Route("api/auth/updatename")]
+        [HttpGet]
+        public IHttpActionResult UpdateName(string name, [FromUri] int userId)
+        {
+            var data = repository.UpdateUsername(name, userId);
+            return Ok(data);
+        }
+
+        [Route("api/auth/updateemail")]
+        [HttpGet]
+        public IHttpActionResult UpdateEmail(string email, [FromUri] int userId)
+        {
+            var data = repository.UpdateEmail(email, userId);
+            return Ok(data);
+        }
+
+        [Route("api/auth/updatepass")]
+        [HttpGet]
+        public IHttpActionResult UpdatePassword(string password, int userId)
+        {
+            var data = repository.UpdatePassword(password, userId);
+            return Ok(data);
         }
     }
 }
